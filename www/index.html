@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Earnix</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #111827;
+}
+
+.app {
+    max-width: 430px;
+    min-height: 100vh;
+    margin: auto;
+    padding-bottom: 80px;
+}
+
+/* HEADER */
+
+header {
+    padding: 22px 18px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    color: #5b5cf0;
+}
+
+/* BALANCE */
+
+.balance {
+    margin: 8px 16px 18px;
+    padding: 22px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #5b5cf0, #7c3aed);
+    color: white;
+    box-shadow: 0 12px 30px rgba(91,92,240,0.2);
+}
+
+.balance small {
+    opacity: 0.8;
+}
+
+.money {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 5px 0 15px;
+}
+
+/* BUTTONS */
+
+.btn {
+    border: none;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.white {
+    background: white;
+    color: #4f46e5;
+}
+
+.primary {
+    background: #5b5cf0;
+    color: white;
+    width: 100%;
+}
+
+/* SECTIONS */
+
+.section {
+    padding: 0 16px;
+}
+
+.section h2 {
+    font-size: 18px;
+    margin: 20px 0 10px;
+}
+
+/* CARDS */
+
+.card {
+    background: white;
+    border-radius: 19px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 5px 18px rgba(17,24,39,0.05);
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.taskicon {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background: #eef0ff;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+}
+
+.task h3 {
+    margin-bottom: 4px;
+    font-size: 16px;
+}
+
+.task p {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.reward {
+    margin-left: auto;
+    font-weight: 900;
+    color: #5b5cf0;
+}
+
+/* SCREENS */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* PUZZLE */
+
+.puzzle {
+    margin: 25px 16px;
+    padding: 22px;
+    background: white;
+    border-radius: 22px;
+    text-align: center;
+}
+
+.gems {
+    text-align: center;
+    font-size: 42px;
+    font-weight: 900;
+    margin: 20px 0;
+}
+
+.question {
+    font-size: 30px;
+    font-weight: 900;
+    margin: 25px 0;
+}
+
+.answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.answers button {
+    padding: 16px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.answers button:active {
+    background: #eef0ff;
+}
+
+/* NOTICE */
+
+.notice {
+    margin: 0 16px 15px;
+    padding: 13px;
+    border-radius: 14px;
+    background: #fff7ed;
+    color: #9a3412;
+    font-size: 13px;
+}
+
+/* WALLET */
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #eef0f4;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.hint {
+    text-align: center;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* NAVIGATION */
+
+nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(430px, 100%);
+    background: white;
+    border-top: 1px solid #e5e7eb;
+
+    display: flex;
+    justify-content: space-around;
+
+    padding: 10px 4px 12px;
+
+    z-index: 100;
+}
+
+nav button {
+    border: none;
+    background: none;
+    color: #6b7280;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.navicon {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 2px;
+}
+
+nav button.active {
+    color: #5b5cf0;
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<!-- ================= HOME ================= -->
+
+<div id="home" class="screen active">
+
+<header>
+    <div class="logo">
+        earni<span>x</span>
+    </div>
+
+    <div>🔔</div>
+</header>
+
+
+<div class="balance">
+
+    <small>Available Balance</small>
+
+    <div class="money">
+        ₹<span id="balance">5.00</span>
+    </div>
+
+    <button class="btn white"
+            onclick="showScreen('wallet')">
+
+        Withdraw
+
+    </button>
+
+</div>
+
+
+<div class="notice">
+
+🎁 Welcome Bonus ₹5 added to your demo wallet.
+
+</div>
+
+
+<div class="section">
+
+<h2>🔥 Today's Tasks</h2>
+
+
+<!-- PUZZLE -->
+
+<div class="card task"
+     onclick="showScreen('puzzle')">
+
+    <div class="taskicon">
+        🧩
+    </div>
+
+    <div>
+
+        <h3>Quick Puzzle</h3>
+
+        <p>
+            Solve a simple puzzle
+        </p>
+
+    </div>
+
+    <div class="reward">
+        +1 💎
+    </div>
+
+</div>
+
+
+<!-- GAME -->
+
+<div class="card task">
+
+    <div class="taskicon">
+        🎮
+    </div>
+
+    <div>
+
+        <h3>Play & Earn</h3>
+
+        <p>
+            Coming soon
+        </p>
+
+    </div>
+
+    <div class="reward">
+        Soon
+    </div>
+
+</div>
+
+
+<!-- OFFERS -->
+
+<div class="card task">
+
+    <div class="taskicon">
+        📱
+    </div>
+
+    <div>
+
+        <h3>Verified Offers</h3>
+
+        <p>
+            Coming soon
+        </p>
+
+    </div>
+
+    <div class="reward">
+        Soon
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= PUZZLE ================= -->
+
+<div id="puzzle" class="screen">
+
+<header>
+
+<button class="btn"
+        onclick="showScreen('home')">
+
+← Back
+
+</button>
+
+<div class="logo">
+    Puzzle
+</div>
+
+<div></div>
+
+</header>
+
+
+<div class="puzzle">
+
+<div class="gems">
+
+💎 <span id="gems">0</span>
+
+</div>
+
+
+<p class="hint">
+
+Solve correctly to collect 1 gem.
+
+</p>
+
+
+<div class="question">
+
+7 + 5 = ?
+
+</div>
+
+
+<div class="answers">
+
+<button onclick="answer(10)">
+10
+</button>
+
+<button onclick="answer(12)">
+12
+</button>
+
+<button onclick="answer(13)">
+13
+</button>
+
+<button onclick="answer(14)">
+14
+</button>
+
+</div>
+
+
+<p id="result"
+   class="hint"
+   style="margin-top:20px;">
+
+</p>
+
+</div>
+
+</div>
+
+
+<!-- ================= WALLET ================= -->
+
+<div id="wallet" class="screen">
+
+<header>
+
+<div class="logo">
+    Wallet
+</div>
+
+<div>
+    💰
+</div>
+
+</header>
+
+
+<div class="balance">
+
+<small>
+Demo Balance
+</small>
+
+<div class="money">
+
+₹<span id="walletBalance">
+5.00
+</span>
+
+</div>
+
+
+<button class="btn white"
+        onclick="withdraw()">
+
+Withdraw
+
+</button>
+
+</div>
+
+
+<div class="section">
+
+<div class="card">
+
+
+<div class="row">
+
+<span>
+🎁 Welcome Bonus
+</span>
+
+<b>
++₹5.00
+</b>
+
+</div>
+
+
+<div class="row">
+
+<span>
+💎 Puzzle Rewards
+</span>
+
+<b id="puzzleValue">
+₹0.00
+</b>
+
+</div>
+
+
+</div>
+
+
+<p class="hint">
+
+V0 Prototype — real payments are disabled.
+
+</p>
+
+</div>
+
+</div>
+
+
+<!-- ================= PROFILE ================= -->
+
+<div id="profile" class="screen">
+
+<header>
+
+<div class="logo">
+    Profile
+</div>
+
+<div>
+    👤
+</div>
+
+</header>
+
+
+<div class="section">
+
+<div class="card">
+
+
+<div class="row">
+
+<span>
+Username
+</span>
+
+<b>
+Demo Student
+</b>
+
+</div>
+
+
+<div class="row">
+
+<span>
+Account Status
+</span>
+
+<b>
+🟢 Active
+</b>
+
+</div>
+
+
+<div class="row">
+
+<span>
+Tasks Completed
+</span>
+
+<b id="tasks">
+0
+</b>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+<button id="nav-home"
+        class="active"
+        onclick="showScreen('home')">
+
+<span class="navicon">
+🏠
+</span>
+
+Home
+
+</button>
+
+
+<button id="nav-puzzle"
+        onclick="showScreen('puzzle')">
+
+<span class="navicon">
+💎
+</span>
+
+Earn
+
+</button>
+
+
+<button id="nav-wallet"
+        onclick="showScreen('wallet')">
+
+<span class="navicon">
+💰
+</span>
+
+Wallet
+
+</button>
+
+
+<button id="nav-profile"
+        onclick="showScreen('profile')">
+
+<span class="navicon">
+👤
+</span>
+
+Profile
+
+</button>
+
+</nav>
+
+</div>
+
+
+<script>
+
+/* =========================
+   EARNIX DATA
+========================= */
+
+let gems = 0;
+
+let balance = 5;
+
+let tasks = 0;
+
+
+/* =========================
+   UPDATE UI
+========================= */
+
+function updateUI() {
+
+    document
+        .querySelectorAll("#balance, #walletBalance")
+        .forEach(element => {
+
+            element.textContent =
+                balance.toFixed(2);
+
+        });
+
+
+    document.getElementById("gems")
+        .textContent = gems;
+
+
+    document.getElementById("tasks")
+        .textContent = tasks;
+
+
+    document.getElementById("puzzleValue")
+        .textContent =
+        "₹" + (gems * 0.01).toFixed(2);
+
+}
+
+
+/* =========================
+   SCREEN NAVIGATION
+========================= */
+
+function showScreen(screenID) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+
+            screen.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(screenID)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll("nav button")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+        });
+
+
+    const navButton =
+        document.getElementById(
+            "nav-" + screenID
+        );
+
+
+    if (navButton) {
+
+        navButton.classList.add("active");
+
+    }
+
+
+    updateUI();
+
+}
+
+
+/* =========================
+   PUZZLE
+========================= */
+
+function answer(value) {
+
+    const result =
+        document.getElementById("result");
+
+
+    if (value === 12) {
+
+        gems++;
+
+        tasks++;
+
+        balance += 0.01;
+
+
+        result.textContent =
+            "✅ Correct! +1 Gem";
+
+
+        result.style.color =
+            "#16a34a";
+
+    }
+
+    else {
+
+        result.textContent =
+            "❌ Wrong answer. Try again!";
+
+
+        result.style.color =
+            "#dc2626";
+
+    }
+
+
+    updateUI();
+
+}
+
+
+/* =========================
+   WITHDRAW
+========================= */
+
+function withdraw() {
+
+    alert(
+        "Demo only.\n\n" +
+        "Real withdrawals are disabled in Earnix V0."
+    );
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+updateUI();
+
+</script>
+
+</body>
+  </html>
